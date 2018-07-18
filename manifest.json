@@ -1,0 +1,40 @@
+{
+    "manifest_version": 2,
+    "name": "TubePin extention",
+    "version": "1.0",
+    "description": "Pin youtube player with you while browsing",
+    "icons": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    },
+
+    "page_action": {
+        "default_icon": "images/icon16.png",
+        "default_popup": "popup.html",
+        "default_title": "Title"
+    },
+
+    "content_scripts": [{
+        "matches": ["https://www.youtube.com/*", "https://www.udemy.com/*"],
+        "js": ["js/jquery.js", "js/contentScript.js"]
+    }],
+
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": false
+    },
+
+    "background": {
+        "scripts": [
+            "js/eventPages.js"
+        ]
+    },
+
+    "permissions": [
+        "tabs",
+        "storage",
+        "cookies",
+        "\u003Call_urls>"
+    ]
+}
