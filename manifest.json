@@ -9,14 +9,14 @@
         "128": "images/icon128.png"
     },
 
-    "page_action": {
+    "browser_action": {
         "default_icon": "images/icon16.png",
         "default_popup": "popup.html",
         "default_title": "Title"
     },
 
     "content_scripts": [{
-        "matches": ["https://www.youtube.com/*", "https://www.udemy.com/*"],
+        "matches": ["<all_urls>"],
         "js": ["js/jquery.js", "js/contentScript.js"]
     }],
 
