@@ -25,6 +25,8 @@ $(function () {
                     action: "checkVideoExist"
                 }, function (response) {
                     console.log(response)
+                    removeLoading();
+
                     if( response && response.exists ) {
                         switch(response.type) {
                             case "youtube":
@@ -49,8 +51,14 @@ $(function () {
         })
     })
 
+    var removeLoading = function () {
+        $('button').prop('disabled', false).find('i').removeClass(['ld', 'ld-surprise']);
+        $('.form-control').find('label').text('');
+    }
+
     var showLoadingText = function () {
         $('.form-control').find('label').text('Loading .... !');
+        $('button').prop('disabled', true).find('i').addClass('ld ld-surprise');
     }
 
     var showNoLinks = function () {
@@ -58,21 +66,20 @@ $(function () {
     }
 
     var showLinksText = function () {
-        $('.form-control').find('label').text('found some links please choose one');
+        $('#result').prepend('<p><b>found some links please choose one:</b></p>');
     }
 
     var showYoutubeMsg = function () {
-        $('.form-control').find('label').text('Youtube found and video currently loaded');
+        $('#result').prepend('<h3>Youtube found and video currently loaded</h3>');
     }
 
     var drawLinks = function (loop) {
-        $('.form-control').prepend('<div class="list list-group"></div>')
+        $('#result').html('<div class="list list-group"></div>')
         $.each(loop, function(i, v) {
-            $('.list').append('<a class="links list-group-item list-group-item-action" href="'+v+'">'+_.truncate(v)+'</a>')
+            $('.list').append('<a class="links list-group-item list-group-item-action" href="'+v+'">'+_.truncate(v, { 'length': 28 })+'</a>')
         })
         iframeLinkClick()
         showLinksText();
-        $('body').css({'width': '400px', 'height': '400px'})
     }
 
     var iframeLinkClick = function () {
