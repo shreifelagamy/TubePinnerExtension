@@ -9,7 +9,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         // check if youtube
         if( parseYoutubeId(window.location.href) && window.location.href.includes('youtube') ) {
             $('.ytp-play-button')[0].click()
-            sendResponse({exists: true, type: "youtube", url: parseUrl(window.location.href) })
+            var time = $('.ytp-progress-bar').attr('aria-valuenow');
+            sendResponse({exists: true, type: "youtube", url: parseUrl(window.location.href, time) })
         }
         else {
             var type = 'videos';
@@ -75,7 +76,7 @@ var parseYoutubeId = function (url) {
     }
 }
 
-var parseUrl = function (url) {
+var parseUrl = function (url, time) {
     var videoId = parseYoutubeId(url),
         listId = getUrlVars(url, 'list'),
         embedUrl = '';
@@ -85,6 +86,10 @@ var parseUrl = function (url) {
 
         if (typeof listId !== 'undefined') {
             embedUrl += '?list=' + listId;
+
+            if (typeof time !== 'undefined' && time !== false) {
+                embedUrl += '&start=' + time;
+            }
         } else {
             // embedUrl += 'autoplay=1';
 
